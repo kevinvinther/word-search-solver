@@ -1,0 +1,34 @@
+loop (for each word ):
+    find_word(word_index);
+
+find_word() :
+    loop (for each line (while word not found))
+        loop (for each character (while word not found))
+            if character is the one the word starts with then:
+                find_word_at_coordinates(coordinates)
+                           
+find_word_at_coordinates() :
+    for each direction (while word not found):
+        if there's enough space for the word to exist in that direction:
+            check_if_word_at_coordinates_in_direction() :
+
+check_if_word_at_coordinates_in_direction() :
+    assume word is there (ok == 1)
+        for each letter in the word bar the first (while ok == 1):
+            check current letter against word
+            -- if it matches, continue
+            -- if it doesn't match, word is not there (ok == 0)
+        if (ok == 1) 
+            print_word(letter_coords, direction, word_index)    
+
+print_word() :
+    we have a 2d bool array for if the letter is in the word or not (starts all 0)
+    for each letter in the word:
+        make coord in array 1
+    for each row:
+        for each each coordinate in row:
+            if coordinate of letter in array is 1
+                then print uppercase(letter)
+            else
+                print letter
+
