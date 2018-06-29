@@ -22,26 +22,18 @@ int main(int argc, char const *argv[]) {
 		return 1;
 	}
 
-	int table_height = 0, table_width = 0; 
+	int table_height, table_width; 
+	std::vector<std::string> letter_table;
 
-	std::string item;
+	while (!puzzle.eof()) 
+	{
+		std::string input_line;
+		getline(puzzle, input_line);
+		letter_table.push_back(input_line);
+	}
 
-	std::string input_row;
-	std::vector<std::string> letter_table; 
-
-	int table_height, table_width;
-	string *arr;
-
-	puzzle >> table_height, table_width;
-	arr = new string[table_height];
-
-	std::cout << arr[2][2]; 
-	
-	
-
-	//std::cout << height << " total lines." << std::endl;
-
-	// point wherest the height and width should be known		
+	table_height = letter_table.size();
+	table_width = letter_table[0].length();
 
 	return 0;
 }
