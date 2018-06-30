@@ -51,18 +51,16 @@ int main(int argc, char const *argv[]) {
 		word_list.push_back(temp); 
 	}
 	word_count = word_list.size();
+	char crt_word_starting_letter;
 
 	//Main loop
-	for (size_t current_word_index = 0; current_word_index < word_count; current_word_index++) {
-		std::cout << "Finding word: " << word_list[current_word_index] << std::endl;
+	for (size_t crt_word_index = 0; crt_word_index < word_count; crt_word_index++) {
+		std::cout << "Finding word: " << word_list[crt_word_index] << std::endl;
+		crt_word_starting_letter = word_list[crt_word_index][0];
 		for (int direction_tested = 0; direction_tested < 8; direction_tested++) {
-			if (valid_directions[direction_tested] == 0)
-				break;
-			else {
 				// CODE WHOMST SEARCHES FOR THE WORD IN THAT DIRECTION
 				// and then
 				// CODE WHOMST DISPLAYS THE FOUND WORD AND ITS LOCATION
-			}
 		}
 	}
 
