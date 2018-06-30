@@ -82,7 +82,11 @@ int main(int argc, char const *argv[]) {
                      width_progress++) {
                     if (letter_table.at(height_progress).at(width_progress) ==
                         word_list[word_progress].at(0)) {
-                        std::cout << "Found!" << std::endl;
+                        std::cout << "Found "
+                                  << letter_table.at(height_progress)
+                                         .at(width_progress)
+                                  << " at " << height_progress << ","
+                                  << width_progress << std::endl;
                         // Search on for word
                         for (size_t directions = 0; directions < 8;
                              directions++) {
