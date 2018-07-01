@@ -5,7 +5,7 @@
 #include <vector>
 
 const int dir_right[8] = {1, 1, 1, 0, -1, -1, -1, 0};
-const int dir_up[8] = {1, 0, -1, -1, -1, 0, 1, 1};
+const int dir_down[8] = {-1, 0, 1, 1, 1, 0, -1, -1};
 
 //
 // ─────────────────────────────────────────────────────────────────────────────
@@ -22,33 +22,36 @@ class WordSearch {
     size_t word_count;
 
     bool WordFits(size_t line, size_t column, int length, size_t dir) {
-        size_t word_end_line = line + length * dir_up[dir];
-        size_t word_end_column = column + length * dir_right[dir];
+        length--;
+        int word_end_line = line + length * dir_down[dir];
+        int word_end_column = column + length * dir_right[dir];
         if (word_end_line < 0 || word_end_line >= table_lines) return 0;
         if (word_end_column < 0 || word_end_column >= table_columns) return 0;
         return 1;
     }
 
     void DisplayWord(size_t line, size_t column, std::string word, size_t dir) {
-        std::cout << "WORD FOUND!" << std::endl;
+        std::cout << "WORD FOUND in direction " << dir << std::endl;
     }
 
     void SearchAtLocation(size_t line, size_t column, std::string word,
                           bool &word_found) {
         for (size_t dir = 0; dir < 8; dir++) {
             if (!WordFits(line, column, word.length(), dir)) {
-                return;  // word not found!
+                continue;  // word not found!
             }
             int letter_line, letter_column;
             word_found = true;  // assume we've found the word
             for (int i = 1; i < word.length(); i++) {
-                letter_line = line + i * dir_up[dir];
+                letter_line = line + i * dir_down[dir];
                 letter_column = column + i * dir_right[dir];
                 if (letter_table[letter_line][letter_column] != word[i]) {
                     word_found = false;
-                    return;  // word not found!
+                    break;  // word not found!
                 }
             }
+            if (!word_found)
+                continue; // word not found!
 
             DisplayWord(line, column, word, dir);
             return;  // word found!
