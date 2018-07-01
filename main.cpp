@@ -19,7 +19,7 @@ class WordSearch {
     size_t table_width;
     size_t word_count;
 
-    void SearchForWordAtGivenLocation(size_t location_height, size_t location_width, std::string word) {
+    void SearchForWordAtGivenLocation(size_t location_height, size_t location_width, std::string word, bool &word_found) {
         for (size_t directions = 0; directions < 8; directions++) {
             // LookForWord
         }
@@ -41,7 +41,7 @@ class WordSearch {
                                   << width_progress << std::endl;
                         
                         // Search on for word
-                        SearchForWordAtGivenLocation(height_progress, width_progress, word);
+                        SearchForWordAtGivenLocation(height_progress, width_progress, word, word_found);
                         continue;
                     }
                 }
