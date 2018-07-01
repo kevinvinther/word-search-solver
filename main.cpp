@@ -17,6 +17,7 @@ class WordSearch {
    private:
     std::vector<std::string> letter_table;
     std::vector<std::string> word_list;
+    std::vector<std::vector<bool>> display_table;
     size_t table_lines;
     size_t table_columns;
     size_t word_count;
@@ -30,8 +31,25 @@ class WordSearch {
         return 1;
     }
 
-    void DisplayWord(size_t line, size_t column, std::string word, size_t dir) {
-        std::cout << "WORD FOUND in direction " << dir << std::endl;
+    void ClearDisplayTable() {
+        for (size_t line = 0; line < table_lines; line++) 
+            for (size_t column = 0; column < table_columns; column++)
+                display_table[line][column] = 0;
+    }
+
+    void DisplayWord(std::string word) {
+        std::cout << "Found word \"" << word << "\":" << std::endl;
+        for (size_t line = 0; line < table_lines; line++) {
+            for (size_t column = 0; column < table_columns; column++) {
+                if (!display_table[line][column])
+                    std::cout << '+' << ' ';
+                else
+                    std::cout << (char)toupper(letter_table[line][column]) << ' ';
+            }
+        std::cout << std::endl;
+        }
+        std::cout << std::endl;
+        system("PAUSE");
     }
 
     void SearchAtLocation(size_t line, size_t column, std::string word,
@@ -40,20 +58,24 @@ class WordSearch {
             if (!WordFits(line, column, word.length(), dir)) {
                 continue;  // word not found!
             }
-            int letter_line, letter_column;
+            int letter_line = line, letter_column = column;
             word_found = true;  // assume we've found the word
+            display_table[letter_line][letter_column] = true;
             for (int i = 1; i < word.length(); i++) {
                 letter_line = line + i * dir_down[dir];
                 letter_column = column + i * dir_right[dir];
+                display_table[letter_line][letter_column] = 1;
                 if (letter_table[letter_line][letter_column] != word[i]) {
                     word_found = false;
                     break;  // word not found!
                 }
             }
-            if (!word_found)
+            if (!word_found) {
+                ClearDisplayTable();
                 continue; // word not found!
-
-            DisplayWord(line, column, word, dir);
+            }
+            DisplayWord(word);
+            ClearDisplayTable();
             return;  // word found!
         }
     }
@@ -61,16 +83,10 @@ class WordSearch {
     void SearchForWord(size_t word_i) {
         std::string word = word_list[word_i];
         bool word_found = false;
-        std::cout << "Searching for word " << word << std::endl;
 
         for (size_t line = 0; line < table_lines; line++) {
             for (size_t column = 0; column < table_columns; column++) {
                 if (letter_table[line][column] == word_list[word_i][0]) {
-                    // Test output, temporary
-                    std::cout << "Found " << letter_table[line][column]
-                              << " at " << line << "," << column << std::endl;
-
-                    // Search on for word
                     SearchAtLocation(line, column, word, word_found);
                     if (word_found) return;  // word found!
                 }
@@ -115,6 +131,14 @@ class WordSearch {
         // Calculate the height and width
         table_lines = letter_table.size(),
         table_columns = letter_table[0].size();
+
+        // Initialize display table
+        std::vector<bool> blank_bool_vector;
+        for (size_t column = 0; column < table_columns; column++)
+            blank_bool_vector.push_back(false);
+        for (size_t line = 0; line < table_lines; line++)
+            display_table.push_back(blank_bool_vector);
+
 
         // Input the words
         while (!words.eof()) {
